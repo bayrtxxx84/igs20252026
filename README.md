@@ -1,11 +1,4 @@
 # igs20252026
-A continuación, presento una propuesta de contenido para el archivo **README.md** basada exclusivamente en la información técnica y estructural extraída de las fuentes sobre el repositorio:
-
-***
-
-# igs20252026
-
-Este es un repositorio público alojado en GitHub, propiedad del usuario **bayrtxxx84**,. El proyecto se encuentra en una etapa inicial de desarrollo, con un historial que registra **4 commits** hasta la fecha.
 
 ## Descripción General
 Actualmente, el repositorio **no cuenta con una descripción**, sitio web o etiquetas de temas específicos proporcionados por el autor. Sin embargo, se identifica como un proyecto de software de código abierto bajo una licencia permisiva.
