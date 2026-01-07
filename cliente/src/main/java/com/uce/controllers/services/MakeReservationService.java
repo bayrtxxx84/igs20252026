@@ -1,6 +1,7 @@
 package com.uce.controllers.services;
 
 import com.uce.logic.usercases.user.MakeReservationUserCase;
+import com.uce.logic.validators.Result;
 
 public class MakeReservationService {
 
@@ -10,12 +11,16 @@ public class MakeReservationService {
         this.userCase = userCase;
     }
 
-    public String makeReservation(String userName,
+    public Result<String> makeReservation(
+            String userName,
             java.sql.Date fechaReserva,
             int numeroComensales) {
 
-        return userCase.makeReservation(userName, fechaReserva, numeroComensales);
+        var reserva = userCase.makeReservation(userName, fechaReserva, numeroComensales);
 
+        return reserva.fold(
+                val -> Result.success(val.getReservaId()),
+                ex -> Result.failure(ex));
     }
 
 }
