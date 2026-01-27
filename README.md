@@ -37,3 +37,20 @@ El software se distribuye bajo la **Licencia Apache-2.0**. Esta licencia es de t
 ## 6. Estado del Proyecto
 *   **Actividad:** El repositorio cuenta con un historial inicial de 7 commits.
 *   **Versiones:** Actualmente no hay "Releases" o etiquetas de versión publicadas oficialmente, lo que indica que el proyecto podría estar en una **fase activa de desarrollo o prototipado**.
+
+graph TD
+    subgraph "Entorno Docker (docker-compose.yaml)"
+        GW[Gateway Service] -->|Enruta peticiones| RES[Microservicio Reservas]
+        GW -->|Enruta peticiones| USU[Microservicio Usuario]
+        
+        DISC((Discovery Service)) -.->|Registra y Localiza| GW
+        DISC -.->|Registra y Localiza| RES
+        DISC -.->|Registra y Localiza| USU
+        
+        subgraph "Tecnología Base"
+            JAVA[Java 100%]
+            MVN[Maven / pom.xml]
+        end
+    end
+    
+    User((Usuario/Cliente)) -->|Petición API| GW
