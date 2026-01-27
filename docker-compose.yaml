@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+    reservas-db:
+        image: mysql:8.0
+        container_name: elbuensabor_mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: rootroot
+            MYSQL_DATABASE: elbuensabor_db
+        volumes:
+            - mysql_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        #networks:
+        #    elbuensabor_network:
+        #        ipv4_address: 172.18.0.5
+
+    usuarios-db:
+        image: postgres
+        container_name: elbuensabor_postgres
+        restart: always
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=root
+            - POSTGRES_DB=elbuensabor_db
+        ports:
+            - "5432:5432"
+       # networks:
+       #     elbuensabor_network:
+       #         ipv4_address: 172.18.0.15
+
+    discovery:
+        build:
+            context: ./discovery
+            dockerfile: dockerfile
+        ports:
+            - "8761:8761"
+        networks:
+            elbuensabor_network:
+                ipv4_address: 172.18.0.200
+                
+    gateway:
+        build:
+            context: ./gateway
+            dockerfile: dockerfile
+        ports:
+            - "8080:8080"
+        networks:
+            elbuensabor_network:
+                ipv4_address: 172.18.0.201
+    
+    reservas:
+        build:
+            context: ./el-buen-sabor-ing-3
+            dockerfile: dockerfile
+        depends_on:
+            - reservas-db
+            - discovery
+        networks:
+            elbuensabor_network:
+                ipv4_address: 172.18.0.100
+                
+    usuarios:
+        build:
+            context: ./usuario
+            dockerfile: dockerfile
+        depends_on:
+            - usuarios-db
+            - discovery
+        networks:
+            elbuensabor_network:
+                ipv4_address: 172.18.0.101
+
+volumes:
+    postgres_data:
+    mysql_data:
+
+
+networks:
+    elbuensabor_network:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 172.18.0.0/16
